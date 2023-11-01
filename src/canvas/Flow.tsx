@@ -1,8 +1,16 @@
 import 'react-modern-drawer/dist/index.css';
 import 'reactflow/dist/style.css';
 
+import { useState } from 'react';
 import Drawer from 'react-modern-drawer';
-import ReactFlow, { Background, BackgroundVariant, Controls, Panel } from 'reactflow';
+import ReactFlow, {
+  Background,
+  BackgroundVariant,
+  Controls,
+  Panel,
+  ReactFlowInstance,
+} from 'reactflow';
+import { uid } from 'uid';
 
 import useFlowStore from './flowstore';
 import MicroserviceNode from './Microservice.node';
@@ -14,18 +22,19 @@ const nodeTypes = {
 function Flow() {
   const {
     edges,
-    isOpen,
+    isNodeEditDrawerOpen,
     nodes,
     onConnect,
     onEdgesChange,
     onNodesChange,
-    toggleDrawer,
     addNode,
+    toggleNodeEditDrawer,
+    activeNode,
   } = useFlowStore();
-
+  const [rfInstance, setRfInstance] = useState<ReactFlowInstance | null>(null);
   const handleAddNodeClick = () => {
     const newNode = {
-      id: Math.random().toString(),
+      id: uid().toString(),
       type: NodeTypes.MICROSERVICE,
       position: {
         x: (Math.random() * window.innerWidth) / 2,
@@ -50,14 +59,9 @@ function Flow() {
             hideAttribution: true,
           }}
           style={{ backgroundColor: '#323434' }}
+          onInit={setRfInstance}
         >
           <Panel position="top-left">
-            <button
-              onClick={toggleDrawer}
-              className=" bg-orange-500 px-3 py-1 rounded-md mx-1 outline"
-            >
-              Show
-            </button>
             <button
               onClick={handleAddNodeClick}
               className=" bg-gray-400 px-3 py-1 rounded-md mx-1 outline"
@@ -70,13 +74,15 @@ function Flow() {
         </ReactFlow>
       </div>
       <Drawer
-        open={isOpen}
-        onClose={toggleDrawer}
+        open={isNodeEditDrawerOpen}
+        onClose={toggleNodeEditDrawer}
         direction="right"
         className="bla bla bla"
         size={500}
       >
-        <div>There Goes One Hell of a form here</div>
+        {activeNode?.id}
+        <br />
+        this is the current active node and respective form will be shown here
       </Drawer>
     </>
   );

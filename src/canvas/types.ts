@@ -7,10 +7,12 @@ export enum NodeTypes {
 export interface FlowState {
   nodes: Node[];
   edges: Edge[];
+  activeNode: Node | null;
+  setActiveNode: (nodeId: string | number) => void;
   addNode: (node: Node) => void;
   onNodesChange: OnNodesChange;
   onEdgesChange: OnEdgesChange;
   onConnect: OnConnect;
-  isOpen: boolean;
-  toggleDrawer: () => void;
+  isNodeEditDrawerOpen: boolean;
+  toggleNodeEditDrawer: () => void;
 }
