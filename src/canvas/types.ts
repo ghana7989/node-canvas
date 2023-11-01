@@ -5,11 +5,14 @@ export enum NodeTypes {
 }
 
 export interface FlowState {
+  flowKey: string;
   nodes: Node[];
   edges: Edge[];
   activeNode: Node | null;
   setActiveNode: (nodeId: string | number) => void;
   addNode: (node: Node) => void;
+  setNodes: (nodes: Node[]) => void;
+  setEdges: (edges: Edge[]) => void;
   onNodesChange: OnNodesChange;
   onEdgesChange: OnEdgesChange;
   onConnect: OnConnect;

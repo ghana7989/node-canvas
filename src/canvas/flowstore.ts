@@ -8,12 +8,14 @@ import {
   MarkerType,
   NodeChange,
 } from 'reactflow';
-import create from 'zustand';
+import { uid } from 'uid';
+import { create } from 'zustand';
 
 import { COLORS } from '../theme';
 import { FlowState } from './types';
 
 const useFlowStore = create<FlowState>((set, get) => ({
+  flowKey: 'flowKey-' + uid(),
   nodes: [],
   edges: [],
   activeNode: null,
@@ -29,6 +31,12 @@ const useFlowStore = create<FlowState>((set, get) => ({
   },
   addNode: (node) => {
     set((state) => ({ nodes: state.nodes.concat(node) }));
+  },
+  setNodes: (nodes) => {
+    set({ nodes });
+  },
+  setEdges: (edges) => {
+    set({ edges });
   },
   onEdgesChange: (changes: EdgeChange[]) => {
     set({
