@@ -1,17 +1,17 @@
 import clsx from 'clsx';
 import { useEffect } from 'react';
-import { TiArrowDownThick, TiEdit } from 'react-icons/ti';
+import { LuForward } from 'react-icons/lu';
+import { TiEdit } from 'react-icons/ti';
 import { Handle, NodeProps, Position } from 'reactflow';
 
-import useFlowStore from './flowstore';
+import useFlowStore from './store/flowstore';
+import { useNodeStore } from './store/nodeStore';
+import { NodeFormData } from './store/types';
 
-type NodeData = {
-  label: string;
-};
+type NodeData = NodeFormData;
 
 export default function MicroserviceNode({ data, selected, id }: NodeProps<NodeData>) {
-  const { toggleNodeEditDrawer, setActiveNode } = useFlowStore();
-
+  const { toggleNodeEditDrawer, setActiveNode, getNodeFormData } = useFlowStore();
   useEffect(() => {
     if (selected) setActiveNode(id);
   }, [selected]);
@@ -36,12 +36,12 @@ export default function MicroserviceNode({ data, selected, id }: NodeProps<NodeD
                 toggleNodeEditDrawer();
               }}
             />
-            <TiArrowDownThick className="bg-orange-500 mr-1 rounded-sm cursor-pointer" />
+            <LuForward className="bg-orange-500 mr-1 rounded-sm cursor-pointer" />
           </div>
         )}
         <div className="flex flex-col w-full items-center justify-center h-full">
-          <h1>Node Name</h1>
-          <h3>Node Description</h3>
+          <h1>{getNodeFormData(id)?.name || 'Node Name'}</h1>
+          <h3>{getNodeFormData(id)?.description || 'Node Description'}</h3>
         </div>
       </div>
       <Handle type="source" position={Position.Left} id="a" />

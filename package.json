@@ -11,11 +11,15 @@
     "type-check": "tsc"
   },
   "dependencies": {
+    "@mantine/form": "^7.1.7",
     "clsx": "^2.0.0",
+    "focus-trap-react": "^10.2.3",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-hook-form": "^7.47.0",
     "react-icons": "^4.11.0",
     "react-modern-drawer": "^1.2.2",
+    "react-sizedbox": "^1.0.0",
     "reactflow": "^11.9.4",
     "uid": "^2.0.2"
   },

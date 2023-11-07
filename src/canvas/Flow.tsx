@@ -2,7 +2,6 @@ import 'react-modern-drawer/dist/index.css';
 import 'reactflow/dist/style.css';
 
 import { useState } from 'react';
-import Drawer from 'react-modern-drawer';
 import ReactFlow, {
   Background,
   BackgroundVariant,
@@ -13,8 +12,9 @@ import ReactFlow, {
 } from 'reactflow';
 import { uid } from 'uid';
 
-import useFlowStore from './flowstore';
 import MicroserviceNode from './Microservice.node';
+import RightDrawer from './RightDrawer';
+import useFlowStore from './store/flowstore';
 import { NodeTypes } from './types';
 
 const nodeTypes = {
@@ -32,13 +32,11 @@ function Flow() {
     addNode,
     toggleNodeEditDrawer,
     activeNode,
-    setEdges,
-    setNodes,
   } = useFlowStore();
-  // const { setViewport } = useReactFlow();
 
   const [rfInstance, setRfInstance] = useState<ReactFlowInstance | null>(null);
   const [showSavedFlowsDrawer, setShowSavedFlowsDrawer] = useState(false);
+
   const handleAddNodeClick = () => {
     const newNode = {
       id: uid().toString(),
@@ -47,10 +45,11 @@ function Flow() {
         x: (Math.random() * window.innerWidth) / 2,
         y: (Math.random() * window.innerHeight) / 2,
       },
-      data: { label: 'New Node' },
+      data: undefined,
     };
     addNode(newNode);
   };
+
   const handleSaveFlowClick = () => {
     if (!rfInstance) return;
     const flow = rfInstance.toObject();
@@ -59,20 +58,6 @@ function Flow() {
 
   const handleLoadLastSavedFlowClick = () => {
     setShowSavedFlowsDrawer(true);
-  };
-  const getAllSavedFlows = () => {
-    const localStorageItems = { ...localStorage };
-    const savedFlows = Object.keys(localStorageItems).filter((key) =>
-      key.startsWith('flowKey-'),
-    );
-    return savedFlows;
-  };
-  const loadCanvas = (flowKey: string) => {
-    const flow = localStorage.getItem(flowKey);
-    if (!flow) return;
-    const flowObj = JSON.parse(flow);
-    setNodes(flowObj.nodes);
-    setEdges(flowObj.edges);
   };
 
   return (
@@ -115,38 +100,18 @@ function Flow() {
           <Background variant={BackgroundVariant.Dots} gap={12} size={1} />
         </ReactFlow>
       </div>
-      <Drawer
-        open={isNodeEditDrawerOpen}
+      <RightDrawer
+        type="editNode"
+        isOpen={isNodeEditDrawerOpen}
         onClose={toggleNodeEditDrawer}
-        direction="right"
-        size={500}
-      >
-        {activeNode?.id}
-        <br />
-        this is the current active node and respective form will be shown here
-      </Drawer>
-      <Drawer
-        open={showSavedFlowsDrawer}
+      />
+      <RightDrawer
+        type="savedFlows"
+        isOpen={showSavedFlowsDrawer}
         onClose={() => {
           setShowSavedFlowsDrawer(false);
         }}
-        direction="right"
-        className=" p-3"
-        size={500}
-      >
-        <h1 className="text-lg font-bold  mb-2">Saved Flows</h1>
-        {getAllSavedFlows().map((flowKey) => (
-          <button
-            key={flowKey}
-            onClick={() => {
-              loadCanvas(flowKey);
-            }}
-            className=" bg-teal-400 px-3 py-1 rounded-md m-1 outline"
-          >
-            {flowKey}
-          </button>
-        ))}
-      </Drawer>
+      />
     </ReactFlowProvider>
   );
 }
