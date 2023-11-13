@@ -4,6 +4,7 @@ import { NodeFormData } from './store/types';
 
 export enum NodeTypes {
   MICROSERVICE = 'microservice',
+  NESTED_MICROSERVICE_NODE = 'nested-microservice-node',
 }
 export type MicroServiceNode = Node<NodeFormData | undefined>;
 

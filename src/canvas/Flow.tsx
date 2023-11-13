@@ -31,7 +31,6 @@ function Flow() {
     onNodesChange,
     addNode,
     toggleNodeEditDrawer,
-    activeNode,
   } = useFlowStore();
 
   const [rfInstance, setRfInstance] = useState<ReactFlowInstance | null>(null);
