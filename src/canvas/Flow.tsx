@@ -12,13 +12,17 @@ import ReactFlow, {
 } from 'reactflow';
 import { uid } from 'uid';
 
-import MicroserviceNode from './Microservice.node';
+import ClientNode from './nodes/Client.node';
+import DBNode from './nodes/DB.node';
+import MicroserviceNode from './nodes/Microservice.node';
 import RightDrawer from './RightDrawer';
 import useFlowStore from './store/flowstore';
 import { NodeTypes } from './types';
 
 const nodeTypes = {
   [NodeTypes.MICROSERVICE]: MicroserviceNode,
+  [NodeTypes.DB_NODE]: DBNode,
+  [NodeTypes.CLIENT_NODE]: ClientNode,
 };
 function Flow() {
   const {
@@ -31,7 +35,6 @@ function Flow() {
     onNodesChange,
     addNode,
     toggleNodeEditDrawer,
-    activeNode,
   } = useFlowStore();
 
   const [rfInstance, setRfInstance] = useState<ReactFlowInstance | null>(null);
@@ -49,7 +52,30 @@ function Flow() {
     };
     addNode(newNode);
   };
-
+  const handleAddDBNodeClick = () => {
+    const newNode = {
+      id: uid().toString(),
+      type: NodeTypes.DB_NODE,
+      position: {
+        x: (Math.random() * window.innerWidth) / 2,
+        y: (Math.random() * window.innerHeight) / 2,
+      },
+      data: undefined,
+    };
+    addNode(newNode);
+  };
+  const handleAddClientNodeClick = () => {
+    const newNode = {
+      id: uid().toString(),
+      type: NodeTypes.CLIENT_NODE,
+      position: {
+        x: (Math.random() * window.innerWidth) / 2,
+        y: (Math.random() * window.innerHeight) / 2,
+      },
+      data: undefined,
+    };
+    addNode(newNode);
+  };
   const handleSaveFlowClick = () => {
     if (!rfInstance) return;
     const flow = rfInstance.toObject();
@@ -95,6 +121,23 @@ function Flow() {
             >
               Load Saved Flows
             </button>
+          </Panel>
+          <Panel position="bottom-center">
+            <button
+              onClick={handleAddDBNodeClick}
+              className=" bg-gray-400 px-3 py-1 rounded-md mx-1 outline"
+            >
+              Add DB Node
+            </button>
+            <button
+              onClick={handleAddClientNodeClick}
+              className=" bg-gray-400 px-3 py-1 rounded-md mx-1 outline"
+            >
+              Add Client Node
+            </button>
+          </Panel>
+          <Panel position="top-center">
+            <h1 className="text-white text-2xl">Microservice Flow Builder</h1>
           </Panel>
           <Controls />
           <Background variant={BackgroundVariant.Dots} gap={12} size={1} />

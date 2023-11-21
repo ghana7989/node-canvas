@@ -1,30 +1,27 @@
 import clsx from 'clsx';
 import { useEffect } from 'react';
-import { LuForward } from 'react-icons/lu';
 import { TiEdit } from 'react-icons/ti';
 import { Handle, NodeProps, Position } from 'reactflow';
 
-import useFlowStore from './store/flowstore';
-import { useNodeStore } from './store/nodeStore';
-import { NodeFormData } from './store/types';
+import useFlowStore from '../store/flowstore';
+import { NodeFormData } from '../store/types';
 
 type NodeData = NodeFormData;
 
-export default function MicroserviceNode({ data, selected, id }: NodeProps<NodeData>) {
+export default function ClientNode({ data, selected, id }: NodeProps<NodeData>) {
   const { toggleNodeEditDrawer, setActiveNode, getNodeFormData } = useFlowStore();
   useEffect(() => {
     if (selected) setActiveNode(id);
   }, [selected]);
-
   return (
     <>
       <Handle type="target" position={Position.Right} />
       <div
         className={clsx(
-          'border-2 w-48 h-24 flex flex-col items-center justify-center p-1 rounded-lg',
+          'border-4 w-48 h-24 flex flex-col items-center justify-center p-2 rounded-lg shadow-lg',
           {
-            'bg-gray-700 border-orange-500': selected,
-            'bg-gray-800 border-gray-900': !selected,
+            'bg-amber-600 border-amber-800': selected,
+            'bg-amber-700 border-amber-900': !selected,
           },
         )}
       >
@@ -36,7 +33,15 @@ export default function MicroserviceNode({ data, selected, id }: NodeProps<NodeD
                 toggleNodeEditDrawer();
               }}
             />
-            <LuForward className="bg-orange-500 mr-1 rounded-sm cursor-pointer" />
+
+            {/* <Link to={`/node/${id}`}>
+              <LuForward
+                className="bg-orange-500 mr-1 rounded-sm cursor-pointer"
+                onClick={() => {
+                  addInitialNode(id);
+                }}
+              />
+            </Link> */}
           </div>
         )}
         <div className="flex flex-col w-full items-center justify-center h-full">

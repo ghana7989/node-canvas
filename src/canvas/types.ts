@@ -4,12 +4,17 @@ import { NodeFormData } from './store/types';
 
 export enum NodeTypes {
   MICROSERVICE = 'microservice',
+  NESTED_MICROSERVICE_NODE = 'nested-microservice-node',
+  DB_NODE = 'db-node',
+  CLIENT_NODE = 'client-node',
 }
 export type MicroServiceNode = Node<NodeFormData | undefined>;
+export type DBNode = Node<NodeFormData | undefined>;
+export type ClientNode = Node<NodeFormData | undefined>;
 
 export interface FlowState {
   flowKey: string;
-  nodes: MicroServiceNode[];
+  nodes: (MicroServiceNode | DBNode | ClientNode)[];
   edges: Edge[];
   activeNode: MicroServiceNode | null;
   refreshActiveNode: () => void;
