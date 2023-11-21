@@ -1,14 +1,6 @@
-import {
-  Connection,
-  Edge,
-  EdgeChange,
-  NodeChange,
-  OnConnect,
-  OnEdgesChange,
-  OnNodesChange,
-} from 'reactflow';
+import { Connection, Edge, EdgeChange, NodeChange } from 'reactflow';
 
-import { FlowState, MicroServiceNode } from '../types';
+import { MicroServiceNode } from '../types';
 export interface NodeFormData {
   name: string;
   description: string;

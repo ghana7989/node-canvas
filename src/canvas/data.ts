@@ -1,4 +1,4 @@
-import MicroserviceNode, { MicroserviceNestedNode } from './Microservice.node';
+import MicroserviceNode, { MicroserviceNestedNode } from './nodes/Microservice.node';
 import { NodeTypes } from './types';
 
 export const nodeTypes = {

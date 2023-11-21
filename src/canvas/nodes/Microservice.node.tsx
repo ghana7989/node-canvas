@@ -5,9 +5,9 @@ import { TiEdit } from 'react-icons/ti';
 import { Link } from 'react-router-dom';
 import { Handle, NodeProps, Position } from 'reactflow';
 
-import useFlowStore from './store/flowstore';
-import { useNodeStore } from './store/nodeStore';
-import { NodeFormData } from './store/types';
+import useFlowStore from '../store/flowstore';
+import { useNodeStore } from '../store/nodeStore';
+import { NodeFormData } from '../store/types';
 
 type NodeData = NodeFormData;
 
