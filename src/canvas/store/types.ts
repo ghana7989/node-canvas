@@ -1,10 +1,27 @@
 import { Connection, Edge, EdgeChange, NodeChange } from 'reactflow';
 
-import { MicroServiceNode } from '../types';
-export interface NodeFormData {
+import { MicroServiceNode, NodeTypes } from '../types';
+
+export interface MicroServiceNodeFormData {
+  _type: NodeTypes.MICROSERVICE;
   name: string;
   description: string;
 }
+export interface DBNodeFormData {
+  _type: NodeTypes.DB_NODE;
+  name: string;
+  description: string;
+}
+
+export interface ClientNodeFormData {
+  _type: NodeTypes.CLIENT_NODE;
+  name: string;
+  description: string;
+  clientType: string;
+}
+
+export type NodeFormData = MicroServiceNodeFormData | DBNodeFormData | ClientNodeFormData;
+
 export interface NodeStore {
   nodeIdToFlowData: {
     [key: string]: {
