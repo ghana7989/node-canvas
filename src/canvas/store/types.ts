@@ -17,7 +17,6 @@ export interface ClientNodeFormData {
   _type: NodeTypes.CLIENT_NODE;
   name: string;
   description: string;
-  clientType: string;
 }
 
 export type NodeFormData = MicroServiceNodeFormData | DBNodeFormData | ClientNodeFormData;

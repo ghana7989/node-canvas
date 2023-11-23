@@ -27,11 +27,8 @@ interface Inputs {
 export default function RightDrawer(props: RightDrawerProps) {
   if (props.type === 'editNode') {
     const { toggleNodeEditDrawer, activeNode, setNodeFormData } = useFlowStore();
+    console.log('activeNode: ', activeNode);
 
-    const initialValues = {
-      name: activeNode?.data?.name || '',
-      description: activeNode?.data?.description || '',
-    };
     // console.log('initialValues: ', initialValues);
     const { register, getValues, handleSubmit, setValue } = useForm<Inputs>();
     useEffect(() => {
@@ -91,7 +88,9 @@ export default function RightDrawer(props: RightDrawerProps) {
             type="button"
             className="bg-orange-500 px-3 py-1 rounded-md m-1 outline"
             onClick={() => {
+              if (!activeNode?.data?._type) return;
               setNodeFormData({
+                _type: activeNode?.data?._type,
                 name: getValues('name'),
                 description: getValues('description'),
               });
